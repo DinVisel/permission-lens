@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "kind": "caveat-enforcer",
+  "name": "LimitedCallsEnforcer",
+  "vendor": "MetaMask",
+  "version": "1.3.0",
+  "status": "recognized",
+  "match": {
+    "deployments": [
+      {
+        "chainId": 1,
+        "address": "0x04658B29F6b82ed55274221a06Fc97D318E25416"
+      },
+      {
+        "chainId": 10,
+        "address": "0x04658B29F6b82ed55274221a06Fc97D318E25416"
+      },
+      {
+        "chainId": 8453,
+        "address": "0x04658B29F6b82ed55274221a06Fc97D318E25416"
+      },
+      {
+        "chainId": 42161,
+        "address": "0x04658B29F6b82ed55274221a06Fc97D318E25416"
+      },
+      {
+        "chainId": 11155111,
+        "address": "0x04658B29F6b82ed55274221a06Fc97D318E25416"
+      }
+    ]
+  },
+  "decoder": "metamask/limited-calls@1",
+  "evidence": [
+    {
+      "type": "vendor-docs",
+      "url": "https://github.com/MetaMask/delegation-toolkit/blob/main/packages/delegation-deployments/src/contractAddresses.ts"
+    }
+  ],
+  "review": {
+    "submittedBy": "claude-sonnet-5 — fetched via direct curl of the raw file from MetaMask/delegation-toolkit@main (not LLM-relayed, to avoid transcription error on hex addresses)",
+    "reviewers": [
+      "claude-sonnet-5 (single automated pass)",
+      "NEEDS HUMAN REVIEW — see GOVERNANCE.md; not yet confirmed by a second maintainer"
+    ],
+    "date": "2026-09-24"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "kind": "caveat-enforcer",
+  "name": "RedeemerEnforcer",
+  "vendor": "MetaMask",
+  "version": "1.3.0",
+  "status": "recognized",
+  "match": {
+    "deployments": [
+      {
+        "chainId": 1,
+        "address": "0xE144b0b2618071B4E56f746313528a669c7E65c5"
+      },
+      {
+        "chainId": 10,
+        "address": "0xE144b0b2618071B4E56f746313528a669c7E65c5"
+      },
+      {
+        "chainId": 8453,
+        "address": "0xE144b0b2618071B4E56f746313528a669c7E65c5"
+      },
+      {
+        "chainId": 42161,
+        "address": "0xE144b0b2618071B4E56f746313528a669c7E65c5"
+      },
+      {
+        "chainId": 11155111,
+        "address": "0xE144b0b2618071B4E56f746313528a669c7E65c5"
+      }
+    ]
+  },
+  "decoder": "metamask/redeemer@1",
+  "evidence": [
+    {
+      "type": "vendor-docs",
+      "url": "https://github.com/MetaMask/delegation-toolkit/blob/main/packages/delegation-deployments/src/contractAddresses.ts"
+    }
+  ],
+  "review": {
+    "submittedBy": "claude-sonnet-5 — fetched via direct curl of the raw file from MetaMask/delegation-toolkit@main (not LLM-relayed, to avoid transcription error on hex addresses)",
+    "reviewers": [
+      "claude-sonnet-5 (single automated pass)",
+      "NEEDS HUMAN REVIEW — see GOVERNANCE.md; not yet confirmed by a second maintainer"
+    ],
+    "date": "2026-09-24"
+  }
+}

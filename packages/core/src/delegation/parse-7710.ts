@@ -77,7 +77,12 @@ export function parse7710TypedData(typedData: unknown, options: Parse7710Options
   }
 
   const delegation: DelegationLike = parsed.data.message;
-  const from7710Options: From7710Options = { domain, registry: options.registry, chainId: options.chainId, path: options.path, input: options.input };
+  // The domain's chainId is the authoritative source — it's what the
+  // delegation was actually signed for. options.chainId is an override for
+  // callers that already know better (or need to force a lookup chain),
+  // not the primary source.
+  const chainId = options.chainId ?? (domain.chainId !== undefined ? Number(domain.chainId) : undefined);
+  const from7710Options: From7710Options = { domain, registry: options.registry, chainId, path: options.path, input: options.input };
   return grantFrom7710Delegation(delegation, from7710Options);
 }
 
@@ -91,11 +96,12 @@ export function parse7710DelegationChain(
   domain: TypedDataDomain,
   options: Omit<Parse7710Options, "chainId"> & { chainId?: number },
 ): Grant[] {
+  const chainId = options.chainId ?? (domain.chainId !== undefined ? Number(domain.chainId) : undefined);
   const grants = delegations.map((delegation, index) =>
     grantFrom7710Delegation(delegation, {
       domain,
       registry: options.registry,
-      chainId: options.chainId,
+      chainId,
       path: `${options.path}[${index}]`,
       input: options.input,
     }),

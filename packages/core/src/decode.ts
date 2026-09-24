@@ -152,11 +152,19 @@ export function applyRegistryFacts(grant: Grant, options: DecodeOptions): void {
   if (entry.properties?.upgradeable !== undefined) grant.facts.registryUpgradeable = entry.properties.upgradeable;
 }
 
-/** PL-7710-008: is `grant.facts.delegationManager` a registry-known DelegationManager deployment? */
+/**
+ * PL-7710-008: is `grant.facts.delegationManager` a registry-known
+ * DelegationManager deployment? Uses `grant.chains` (resolved from the
+ * typed-data domain when the delegation was parsed — see
+ * `parse7710TypedData`) rather than `options.chainId` directly, so this
+ * stays consistent with whatever chain the caveats on this same grant were
+ * already resolved against.
+ */
 export function applyDelegationManagerFacts(grant: Grant, options: DecodeOptions): void {
   if (!options.registry) return;
   const delegationManager = grant.facts.delegationManager;
   if (typeof delegationManager !== "string") return;
-  const entry = options.registry.lookupAddress(delegationManager as `0x${string}`, options.chainId);
+  const chainId = grant.chains.type === "list" ? grant.chains.chainIds[0] : options.chainId;
+  const entry = options.registry.lookupAddress(delegationManager as `0x${string}`, chainId);
   grant.facts.delegationManagerRecognized = entry?.kind === "delegation-manager";
 }
