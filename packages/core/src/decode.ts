@@ -107,11 +107,39 @@ export async function decode(input: GrantInput, options: DecodeOptions = {}): Pr
   return result;
 }
 
-function applyRegistryFacts(grant: Grant, options: DecodeOptions): void {
+/**
+ * Resolves registry facts for a grant using whichever match §7.2's matching
+ * order can reach given what's known so far: address (always available),
+ * then codehash/normalizedCodehash (only meaningful once
+ * `@permissionlens/onchain`'s `enrich()` has fetched code and set
+ * `grant.facts.codehash`/`normalizedCodehash` — before that, those lookups
+ * are skipped rather than attempted against `undefined`).
+ *
+ * Exported so `enrich()` can call it again after adding codehash facts, to
+ * pick up a match `decode()` couldn't reach on address alone.
+ */
+export function applyRegistryFacts(grant: Grant, options: DecodeOptions): void {
   if (!options.registry || grant.grantee.type !== "code") return;
-  const entry = options.registry.lookupAddress(grant.grantee.address, options.chainId);
+  if (grant.facts.registryStatus !== undefined) return;
+
+  const registry = options.registry;
+  let entry = registry.lookupAddress(grant.grantee.address, options.chainId);
+
+  const codehash = grant.facts.codehash;
+  if (!entry && typeof codehash === "string" && registry.lookupCodehash) {
+    entry = registry.lookupCodehash(codehash as `0x${string}`);
+  }
+
+  const normalizedCodehash = grant.facts.normalizedCodehash;
+  if (!entry && typeof normalizedCodehash === "string" && registry.lookupNormalizedCodehash) {
+    entry = registry.lookupNormalizedCodehash(normalizedCodehash as `0x${string}`);
+  }
+
   if (!entry) return;
   grant.facts.registryStatus = entry.status;
   grant.facts.registryName = entry.name;
   if (entry.vendor) grant.facts.registryVendor = entry.vendor;
+  if (entry.properties?.initialization) grant.facts.registryInitialization = entry.properties.initialization;
+  if (entry.properties?.storage) grant.facts.registryStorage = entry.properties.storage;
+  if (entry.properties?.upgradeable !== undefined) grant.facts.registryUpgradeable = entry.properties.upgradeable;
 }

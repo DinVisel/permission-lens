@@ -1,5 +1,7 @@
+import type { Hex } from "viem";
 import type { Rule } from "./types.js";
 import type { Finding } from "../types.js";
+import { crudeSweeperHeuristic } from "../bytecode/sweeper-heuristic.js";
 
 function docsUrl(ruleId: string): string {
   return `docs/rules/${ruleId}.md`;
@@ -24,6 +26,26 @@ export const PL_7702_001: Rule = {
       evidence: { chainId: 0 },
       grantId: grant.id,
       docsUrl: docsUrl("PL-7702-001"),
+    };
+  },
+};
+
+/** Delegate matches a registry entry with `status: malicious` — by address (offline) or by codehash/normalizedCodehash (needs `@permissionlens/onchain` enrichment first). */
+export const PL_7702_002: Rule = {
+  id: "PL-7702-002",
+  requiredFacts: ["registryStatus"],
+  evaluate(grant): Finding | null {
+    if (grant.facts.registryStatus !== "malicious") return null;
+    const delegate = grant.grantee.type === "code" ? grant.grantee.address : undefined;
+    return {
+      ruleId: "PL-7702-002",
+      severity: "critical",
+      confidence: "certain",
+      title: "Known-malicious code",
+      detail: `${grant.facts.registryName ?? `The code at ${delegate}`} is a known-malicious implementation in the registry.`,
+      evidence: { name: grant.facts.registryName, delegate },
+      grantId: grant.id,
+      docsUrl: docsUrl("PL-7702-002"),
     };
   },
 };
@@ -134,11 +156,154 @@ export const PL_7702_014: Rule = {
   },
 };
 
+/** No code deployed at the delegate address on the target chain (yet). Needs `codeAt` from `@permissionlens/onchain` enrichment. */
+export const PL_7702_006: Rule = {
+  id: "PL-7702-006",
+  requiredFacts: ["codeAt"],
+  evaluate(grant): Finding | null {
+    if (grant.facts.codeAt !== "0x") return null;
+    const delegate = grant.grantee.type === "code" ? grant.grantee.address : undefined;
+    return {
+      ruleId: "PL-7702-006",
+      severity: "high",
+      confidence: "certain",
+      title: "No code at the delegate yet",
+      detail: `There is no contract deployed at ${delegate} on this chain right now. Code could still be deployed there later — this authorization would then hand it control.`,
+      evidence: { delegate },
+      grantId: grant.id,
+      docsUrl: docsUrl("PL-7702-006"),
+    };
+  },
+};
+
+/** Delegate is a proxy (EIP-1967 or EIP-1167). Needs `isProxy`/`proxyImplementation` from enrichment. */
+export const PL_7702_007: Rule = {
+  id: "PL-7702-007",
+  requiredFacts: ["isProxy"],
+  evaluate(grant): Finding | null {
+    if (grant.facts.isProxy !== true) return null;
+    const implementation = grant.facts.proxyImplementation;
+    return {
+      ruleId: "PL-7702-007",
+      severity: "medium",
+      confidence: "certain",
+      title: "Delegate is a proxy",
+      detail: implementation
+        ? `The delegate is a proxy currently pointing at ${implementation}. Whoever can upgrade the proxy controls what it does next — that may not be the same code being reviewed here.`
+        : "The delegate is a proxy. Whoever can upgrade it controls what it does next.",
+      evidence: { implementation },
+      grantId: grant.id,
+      docsUrl: docsUrl("PL-7702-007"),
+    };
+  },
+};
+
+/** Tuple nonce is more than 1 ahead of the account's current nonce — a pre-signed authorization saved for later use. Needs `currentNonce` from enrichment. */
+export const PL_7702_009: Rule = {
+  id: "PL-7702-009",
+  requiredFacts: ["currentNonce"],
+  evaluate(grant): Finding | null {
+    const tupleNonce = grant.replay.nonce;
+    const currentNonce = grant.facts.currentNonce;
+    if (tupleNonce === undefined || typeof currentNonce !== "bigint") return null;
+    if (tupleNonce <= currentNonce + 1n) return null;
+    return {
+      ruleId: "PL-7702-009",
+      severity: "medium",
+      confidence: "certain",
+      title: "Pre-signed for later use",
+      detail: `This authorization's nonce (${tupleNonce}) is ahead of the account's current nonce (${currentNonce}). It was signed to be used later, once other transactions bring the nonce up to it — not necessarily by you.`,
+      evidence: { tupleNonce, currentNonce },
+      grantId: grant.id,
+      docsUrl: docsUrl("PL-7702-009"),
+    };
+  },
+};
+
+/** Tuple nonce is behind the account's current nonce — already unusable. Needs `currentNonce` from enrichment. */
+export const PL_7702_010: Rule = {
+  id: "PL-7702-010",
+  requiredFacts: ["currentNonce"],
+  evaluate(grant): Finding | null {
+    const tupleNonce = grant.replay.nonce;
+    const currentNonce = grant.facts.currentNonce;
+    if (tupleNonce === undefined || typeof currentNonce !== "bigint") return null;
+    if (tupleNonce >= currentNonce) return null;
+    return {
+      ruleId: "PL-7702-010",
+      severity: "info",
+      confidence: "certain",
+      title: "Already unusable",
+      detail: `This authorization's nonce (${tupleNonce}) is behind the account's current nonce (${currentNonce}), so it can no longer be applied.`,
+      evidence: { tupleNonce, currentNonce },
+      grantId: grant.id,
+      docsUrl: docsUrl("PL-7702-010"),
+    };
+  },
+};
+
+/** The delegate's bytecode matches the crude sweeper pattern. Needs `codeAt` from enrichment. */
+export const PL_7702_011: Rule = {
+  id: "PL-7702-011",
+  requiredFacts: ["codeAt"],
+  evaluate(grant): Finding | null {
+    const codeAt = grant.facts.codeAt;
+    if (typeof codeAt !== "string" || codeAt === "0x") return null;
+    const heuristic = crudeSweeperHeuristic(codeAt as Hex);
+    if (!heuristic.matched) return null;
+    const delegate = grant.grantee.type === "code" ? grant.grantee.address : undefined;
+    return {
+      ruleId: "PL-7702-011",
+      severity: "critical",
+      confidence: "heuristic",
+      title: "Matches a sweeper pattern",
+      detail: `The code at ${delegate} pushes a hardcoded address (${heuristic.address}) right before a call that can move value — the pattern used by contracts that sweep an account's balance to an attacker. This is a heuristic, not a certainty: review before trusting it either way.`,
+      evidence: { delegate, sweepTarget: heuristic.address },
+      grantId: grant.id,
+      docsUrl: docsUrl("PL-7702-011"),
+    };
+  },
+};
+
+/** Registry says the delegate has unprotected initialization or non-namespaced storage. Pure registry data — no chain access needed. */
+export const PL_7702_015: Rule = {
+  id: "PL-7702-015",
+  requiredFacts: [],
+  evaluate(grant): Finding | null {
+    const unprotectedInit = grant.facts.registryInitialization === "unprotected";
+    const plainStorage = grant.facts.registryStorage === "plain";
+    if (!unprotectedInit && !plainStorage) return null;
+
+    const problems = [
+      unprotectedInit && "its initializer isn't signature-protected, so anyone can call it first (front-running init)",
+      plainStorage && "it doesn't use namespaced storage, so switching from a prior delegate could misread leftover storage",
+    ].filter(Boolean);
+
+    return {
+      ruleId: "PL-7702-015",
+      severity: "medium",
+      confidence: "certain",
+      title: "Registry flags a storage/init risk",
+      detail: `The registry notes that ${problems.join("; and ")}.`,
+      evidence: { unprotectedInit, plainStorage },
+      grantId: grant.id,
+      docsUrl: docsUrl("PL-7702-015"),
+    };
+  },
+};
+
 export const rules7702: Rule[] = [
   PL_7702_001,
+  PL_7702_002,
   PL_7702_003,
   PL_7702_004,
   PL_7702_005,
+  PL_7702_006,
+  PL_7702_007,
+  PL_7702_009,
+  PL_7702_010,
+  PL_7702_011,
   PL_7702_013,
   PL_7702_014,
+  PL_7702_015,
 ];

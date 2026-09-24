@@ -65,9 +65,45 @@
   ],
   "notChecked": [
     {
+      "ruleId": "PL-7702-002",
+      "missingFacts": [
+        "registryStatus"
+      ]
+    },
+    {
       "ruleId": "PL-7702-004",
       "missingFacts": [
         "registryStatus"
+      ]
+    },
+    {
+      "ruleId": "PL-7702-006",
+      "missingFacts": [
+        "codeAt"
+      ]
+    },
+    {
+      "ruleId": "PL-7702-007",
+      "missingFacts": [
+        "isProxy"
+      ]
+    },
+    {
+      "ruleId": "PL-7702-009",
+      "missingFacts": [
+        "currentNonce"
+      ]
+    },
+    {
+      "ruleId": "PL-7702-010",
+      "missingFacts": [
+        "currentNonce"
+      ]
+    },
+    {
+      "ruleId": "PL-7702-011",
+      "missingFacts": [
+        "codeAt"
       ]
     },
     {
@@ -82,6 +118,7 @@
     "PL-7702-003",
     "PL-7702-005",
     "PL-7702-014",
+    "PL-7702-015",
     "PL-GEN-001"
   ],
   "registryVersion": "0.0.0-dev"

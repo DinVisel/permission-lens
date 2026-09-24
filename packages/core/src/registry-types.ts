@@ -1,4 +1,4 @@
-import type { Address } from "viem";
+import type { Address, Hex } from "viem";
 
 /**
  * Contract that any registry lookup must satisfy. `packages/core` declares
@@ -22,4 +22,12 @@ export interface RegistryEntry {
 
 export interface RegistryLookup {
   lookupAddress(address: Address, chainId?: number): RegistryEntry | null;
+  /**
+   * Matching order §7.2's second and third steps. Optional because they
+   * only make sense once bytecode has been fetched (`@permissionlens/onchain`
+   * enrichment) — a lookup implementation that only supports address
+   * matching (or a test stub) can simply omit them.
+   */
+  lookupCodehash?(codehash: Hex): RegistryEntry | null;
+  lookupNormalizedCodehash?(normalizedCodehash: Hex): RegistryEntry | null;
 }
