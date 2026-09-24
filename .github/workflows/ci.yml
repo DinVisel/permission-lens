@@ -46,8 +46,35 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
       - uses: foundry-rs/foundry-toolchain@v1
-      - name: forge test
+      - run: forge build
         working-directory: contracts
+      - run: forge test -vv
+        working-directory: contracts
+
+  fixtures-drift:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: foundry-rs/foundry-toolchain@v1
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - run: forge script script/GenerateFixtures.s.sol -vvv
+        working-directory: contracts
+      - run: pnpm build:fixtures
+      - name: Fail if regenerating fixtures produced a diff
         run: |
-          if [ -f foundry.toml ]; then forge test -vv; else echo "contracts/ not scaffolded yet — skipping"; fi
+          git diff --exit-code -- fixtures/7702 || {
+            echo "fixtures/7702 is out of date — run 'forge script script/GenerateFixtures.s.sol -vvv' (in contracts/) then 'pnpm build:fixtures' and commit the result." >&2
+            exit 1
+          }
