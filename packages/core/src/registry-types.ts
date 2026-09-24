@@ -12,6 +12,9 @@ export interface RegistryEntry {
   vendor?: string;
   version?: string;
   status: "recognized" | "caution" | "malicious";
+  kind?: "delegate-implementation" | "caveat-enforcer" | "delegation-manager";
+  /** For `kind: "caveat-enforcer"` entries: which decoder in `@permissionlens/core`'s enforcer decoder registry understands this enforcer's `terms` layout, e.g. `"metamask/timestamp@1"`. `null`/absent means "recognized, but this build can't decode its terms" — rendered as an opaque restriction rather than an unrecognized one. */
+  decoder?: string | null;
   properties?: {
     upgradeable?: boolean;
     initialization?: "none" | "signed" | "unprotected";

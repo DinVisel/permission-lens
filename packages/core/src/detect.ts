@@ -1,9 +1,11 @@
 import type { GrantInput, AuthorizationLike } from "./types.js";
+import { looksLikeDelegationTypedData } from "./delegation/parse-7710.js";
 
 export type ResolvedInput =
   | { kind: "7702-authorization"; authorization: AuthorizationLike }
   | { kind: "7702-transaction"; serialized: `0x${string}` }
   | { kind: "raw-hash"; hash: `0x${string}` }
+  | { kind: "7710-delegation"; typedData: unknown }
   | { kind: "unsupported"; reason: string };
 
 /**
@@ -17,6 +19,10 @@ export function detect(input: GrantInput): ResolvedInput[] {
     if (input.kind === "7702-authorization") return [{ kind: "7702-authorization", authorization: input.authorization }];
     if (input.kind === "7702-transaction") return [{ kind: "7702-transaction", serialized: input.serialized }];
     if (input.kind === "raw-hash") return [{ kind: "raw-hash", hash: input.hash }];
+    if (input.kind === "typed-data") {
+      if (looksLikeDelegationTypedData(input.typedData)) return [{ kind: "7710-delegation", typedData: input.typedData }];
+      return [{ kind: "unsupported", reason: "typed-data payload doesn't match a DelegationManager domain — only ERC-7710 delegations are supported so far" }];
+    }
     if (input.kind === "onchain-observation") {
       return [{ kind: "unsupported", reason: "onchain-observation requires a live chain read — use @permissionlens/onchain's checkAddressDelegation(), not decode()" }];
     }
@@ -45,5 +51,19 @@ export function detect(input: GrantInput): ResolvedInput[] {
     return [{ kind: "raw-hash", hash: params[1] as `0x${string}` }];
   }
 
+  if (method === "eth_signTypedData_v4" && typeof params[1] !== "undefined") {
+    const typedData = typeof params[1] === "string" ? safeJsonParse(params[1]) : params[1];
+    if (looksLikeDelegationTypedData(typedData)) return [{ kind: "7710-delegation", typedData }];
+    return [{ kind: "unsupported", reason: "eth_signTypedData_v4 payload doesn't match a DelegationManager domain — only ERC-7710 delegations are supported so far" }];
+  }
+
   return [{ kind: "unsupported", reason: `RPC method "${method}" is not yet supported by this build of @permissionlens/core` }];
+}
+
+function safeJsonParse(value: string): unknown {
+  try {
+    return JSON.parse(value);
+  } catch {
+    return undefined;
+  }
 }

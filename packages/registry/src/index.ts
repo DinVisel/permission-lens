@@ -26,6 +26,8 @@ function toRegistryEntry(raw: RawEntry): RegistryEntry {
     vendor: raw.vendor,
     version: raw.version,
     status: raw.status,
+    kind: raw.kind,
+    decoder: raw.decoder,
     properties: raw.properties,
     evidence: raw.evidence,
   };

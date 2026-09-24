@@ -10,6 +10,7 @@ function docsUrl(ruleId: string): string {
 /** chain_id == 0 → the authorization is valid on every chain that ever accepts it. */
 export const PL_7702_001: Rule = {
   id: "PL-7702-001",
+  appliesTo: ["7702"],
   requiredFacts: [],
   evaluate(grant): Finding | null {
     if (grant.chains.type !== "all") return null;
@@ -33,6 +34,7 @@ export const PL_7702_001: Rule = {
 /** Delegate matches a registry entry with `status: malicious` — by address (offline) or by codehash/normalizedCodehash (needs `@permissionlens/onchain` enrichment first). */
 export const PL_7702_002: Rule = {
   id: "PL-7702-002",
+  appliesTo: ["7702"],
   requiredFacts: ["registryStatus"],
   evaluate(grant): Finding | null {
     if (grant.facts.registryStatus !== "malicious") return null;
@@ -53,6 +55,7 @@ export const PL_7702_002: Rule = {
 /** Delegate not found in the registry at all. */
 export const PL_7702_003: Rule = {
   id: "PL-7702-003",
+  appliesTo: ["7702"],
   requiredFacts: [],
   evaluate(grant): Finding | null {
     if (grant.grantee.type !== "code") return null;
@@ -73,6 +76,7 @@ export const PL_7702_003: Rule = {
 /** Delegate matches a `recognized` registry entry. */
 export const PL_7702_004: Rule = {
   id: "PL-7702-004",
+  appliesTo: ["7702"],
   requiredFacts: ["registryStatus"],
   evaluate(grant): Finding | null {
     if (grant.facts.registryStatus !== "recognized") return null;
@@ -92,6 +96,7 @@ export const PL_7702_004: Rule = {
 /** Delegate is the zero address — this authorization clears an existing delegation. */
 export const PL_7702_005: Rule = {
   id: "PL-7702-005",
+  appliesTo: ["7702"],
   requiredFacts: [],
   evaluate(grant): Finding | null {
     if (grant.scope.type !== "revoke") return null;
@@ -111,6 +116,7 @@ export const PL_7702_005: Rule = {
 /** The authorization traveled inside a transaction sent by a different account. */
 export const PL_7702_013: Rule = {
   id: "PL-7702-013",
+  appliesTo: ["7702"],
   requiredFacts: ["relayed"],
   evaluate(grant): Finding | null {
     if (grant.facts.relayed !== true) return null;
@@ -130,6 +136,7 @@ export const PL_7702_013: Rule = {
 /** Malformed signature: high-s, bad yParity, or recovered address disagrees with the declared authority. */
 export const PL_7702_014: Rule = {
   id: "PL-7702-014",
+  appliesTo: ["7702"],
   requiredFacts: [],
   evaluate(grant): Finding | null {
     const highS = grant.facts.lowS === false;
@@ -159,6 +166,7 @@ export const PL_7702_014: Rule = {
 /** No code deployed at the delegate address on the target chain (yet). Needs `codeAt` from `@permissionlens/onchain` enrichment. */
 export const PL_7702_006: Rule = {
   id: "PL-7702-006",
+  appliesTo: ["7702"],
   requiredFacts: ["codeAt"],
   evaluate(grant): Finding | null {
     if (grant.facts.codeAt !== "0x") return null;
@@ -179,6 +187,7 @@ export const PL_7702_006: Rule = {
 /** Delegate is a proxy (EIP-1967 or EIP-1167). Needs `isProxy`/`proxyImplementation` from enrichment. */
 export const PL_7702_007: Rule = {
   id: "PL-7702-007",
+  appliesTo: ["7702"],
   requiredFacts: ["isProxy"],
   evaluate(grant): Finding | null {
     if (grant.facts.isProxy !== true) return null;
@@ -201,6 +210,7 @@ export const PL_7702_007: Rule = {
 /** Tuple nonce is more than 1 ahead of the account's current nonce — a pre-signed authorization saved for later use. Needs `currentNonce` from enrichment. */
 export const PL_7702_009: Rule = {
   id: "PL-7702-009",
+  appliesTo: ["7702"],
   requiredFacts: ["currentNonce"],
   evaluate(grant): Finding | null {
     const tupleNonce = grant.replay.nonce;
@@ -223,6 +233,7 @@ export const PL_7702_009: Rule = {
 /** Tuple nonce is behind the account's current nonce — already unusable. Needs `currentNonce` from enrichment. */
 export const PL_7702_010: Rule = {
   id: "PL-7702-010",
+  appliesTo: ["7702"],
   requiredFacts: ["currentNonce"],
   evaluate(grant): Finding | null {
     const tupleNonce = grant.replay.nonce;
@@ -245,6 +256,7 @@ export const PL_7702_010: Rule = {
 /** The delegate's bytecode matches the crude sweeper pattern. Needs `codeAt` from enrichment. */
 export const PL_7702_011: Rule = {
   id: "PL-7702-011",
+  appliesTo: ["7702"],
   requiredFacts: ["codeAt"],
   evaluate(grant): Finding | null {
     const codeAt = grant.facts.codeAt;
@@ -268,6 +280,7 @@ export const PL_7702_011: Rule = {
 /** Registry says the delegate has unprotected initialization or non-namespaced storage. Pure registry data — no chain access needed. */
 export const PL_7702_015: Rule = {
   id: "PL-7702-015",
+  appliesTo: ["7702"],
   requiredFacts: [],
   evaluate(grant): Finding | null {
     const unprotectedInit = grant.facts.registryInitialization === "unprotected";

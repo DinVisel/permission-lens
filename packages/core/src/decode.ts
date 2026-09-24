@@ -2,6 +2,7 @@ import { detect } from "./detect.js";
 import { normalizeAuthorization } from "./authorization.js";
 import { grantFrom7702Authorization } from "./grants/from-7702.js";
 import { parse7702Transaction } from "./transaction.js";
+import { parse7710TypedData } from "./delegation/parse-7710.js";
 import { allRules } from "./rules/index.js";
 import { runRules } from "./rules/runner.js";
 import type { RuleContext } from "./rules/types.js";
@@ -54,6 +55,13 @@ export async function decode(input: GrantInput, options: DecodeOptions = {}): Pr
         applyRegistryFacts(grant, options);
         grants.push(grant);
       }
+      continue;
+    }
+
+    if (item.kind === "7710-delegation") {
+      const grant = parse7710TypedData(item.typedData, { registry: options.registry, chainId: options.chainId, input, path });
+      applyDelegationManagerFacts(grant, options);
+      grants.push(grant);
       continue;
     }
 
@@ -142,4 +150,13 @@ export function applyRegistryFacts(grant: Grant, options: DecodeOptions): void {
   if (entry.properties?.initialization) grant.facts.registryInitialization = entry.properties.initialization;
   if (entry.properties?.storage) grant.facts.registryStorage = entry.properties.storage;
   if (entry.properties?.upgradeable !== undefined) grant.facts.registryUpgradeable = entry.properties.upgradeable;
+}
+
+/** PL-7710-008: is `grant.facts.delegationManager` a registry-known DelegationManager deployment? */
+export function applyDelegationManagerFacts(grant: Grant, options: DecodeOptions): void {
+  if (!options.registry) return;
+  const delegationManager = grant.facts.delegationManager;
+  if (typeof delegationManager !== "string") return;
+  const entry = options.registry.lookupAddress(delegationManager as `0x${string}`, options.chainId);
+  grant.facts.delegationManagerRecognized = entry?.kind === "delegation-manager";
 }

@@ -12,6 +12,8 @@ export function runRules(
 
   for (const grant of grants) {
     for (const rule of rules) {
+      if (rule.appliesTo && !rule.appliesTo.includes(grant.standard)) continue;
+
       const missing = rule.requiredFacts.filter((fact) => !(fact in grant.facts));
       if (missing.length > 0) {
         const set = notCheckedByRule.get(rule.id) ?? new Set<string>();
