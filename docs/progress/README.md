@@ -7,7 +7,7 @@ repo — update the checkboxes as work completes, don't let this drift.
 | Phase | Status | File |
 |---|---|---|
 | 0 — Validate and set up | 🟡 in progress (code parts done; outreach not started) | [phase-0-validate-and-setup.md](phase-0-validate-and-setup.md) |
-| 1 — 7702 core | 🟡 in progress (core decode/rules/CLI done; Foundry fixtures + golden tests outstanding) | [phase-1-7702-core.md](phase-1-7702-core.md) |
+| 1 — 7702 core | 🟢 done | [phase-1-7702-core.md](phase-1-7702-core.md) |
 | 2 — Registry v0 and on-chain enrichment | ⚪ not started | [phase-2-registry-onchain.md](phase-2-registry-onchain.md) |
 | 3 — ERC-7710 and ERC-7715 | ⚪ not started | [phase-3-7710-7715.md](phase-3-7710-7715.md) |
 | 4 — Surfaces (web app, Snap) | ⚪ not started | [phase-4-surfaces.md](phase-4-surfaces.md) |
