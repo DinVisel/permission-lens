@@ -87,7 +87,21 @@ export async function decode(input: GrantInput, options: DecodeOptions = {}): Pr
   };
 
   if (grants.length === 0 && unsupportedReasons.length > 0) {
-    result.unsupported = { reason: unsupportedReasons.join("; ") };
+    const reason = unsupportedReasons.join("; ");
+    result.unsupported = { reason };
+    // PL-GEN-003: not tied to any Grant, so it's emitted directly rather than
+    // through the rule runner — the "never an empty clean result" invariant
+    // (§8 rule 5) needs to hold even when there's nothing to build a Grant from.
+    result.findings.push({
+      ruleId: "PL-GEN-003",
+      severity: "info",
+      confidence: "certain",
+      title: "Input not supported",
+      detail: reason,
+      evidence: {},
+      grantId: "",
+      docsUrl: "docs/rules/PL-GEN-003.md",
+    });
   }
 
   return result;

@@ -16,7 +16,7 @@ Weeks 3–5. Source: [`IMPLEMENTATION_PLAN.md` §9](../../IMPLEMENTATION_PLAN.md
   → [`rules/7702.ts`](../../packages/core/src/rules/7702.ts)
 - [x] Rule PL-GEN-001 (raw hash).
   → [`rules/generic.ts`](../../packages/core/src/rules/generic.ts)
-- [ ] Rule PL-GEN-003 (explicit "unsupported" result) — handled today as `DecodeResult.unsupported`, not as a standalone `Finding`-emitting rule. Revisit whether the plan wants both.
+- [x] Rule PL-GEN-003 (explicit "unsupported" result) — emitted directly by `decode()` (not through the rule runner, since it isn't tied to a `Grant`) alongside `DecodeResult.unsupported`.
 - [x] Minimal registry loader with a hand-written stub dataset.
   → [`packages/registry`](../../packages/registry) (3 example entries — not real vendor data, see Phase 2)
 - [x] `render()` for text and JSON; the "never say safe" test.

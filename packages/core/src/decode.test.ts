@@ -100,6 +100,13 @@ describe("decode() — unsupported input", () => {
     expect(result.unsupported).toBeDefined();
     expect(result.grants).toHaveLength(0);
   });
+
+  it("emits a PL-GEN-003 finding so a clean-looking empty result never happens silently", async () => {
+    const result = await decode({ kind: "rpc", method: "eth_getBalance", params: [] });
+    expect(result.findings).toEqual([
+      expect.objectContaining({ ruleId: "PL-GEN-003", severity: "info" }),
+    ]);
+  });
 });
 
 describe("render() — never says safe (§8 rule 1)", () => {
