@@ -1,4 +1,6 @@
 export * from "./types.js";
+export * from "./bytecode/codehash.js";
+export * from "./bytecode/sweeper-heuristic.js";
 export * from "./registry-types.js";
 export * from "./authorization.js";
 export * from "./transaction.js";
