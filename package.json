@@ -1,0 +1,32 @@
+{
+  "name": "permission-lens",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "license": "SEE LICENSE IN LICENSE-MIT AND LICENSE-APACHE",
+  "packageManager": "pnpm@9.15.9",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "pnpm -r --filter=./packages/* build",
+    "dev": "pnpm -r --filter=./packages/* --parallel dev",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint .",
+    "check:rule-docs": "node scripts/check-rule-docs.mjs",
+    "typecheck": "pnpm -r --filter=./packages/* exec tsc --noEmit",
+    "changeset": "changeset",
+    "release": "pnpm build && changeset publish"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.11",
+    "@permissionlens/core": "workspace:*",
+    "@types/node": "^22.10.2",
+    "@typescript-eslint/eslint-plugin": "^8.19.0",
+    "@typescript-eslint/parser": "^8.19.0",
+    "eslint": "^9.17.0",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}

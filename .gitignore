@@ -1,0 +1,19 @@
+node_modules/
+dist/
+.turbo/
+coverage/
+*.tsbuildinfo
+.DS_Store
+.env
+.env.local
+
+# Foundry
+contracts/out/
+contracts/cache/
+contracts/broadcast/
+
+# Next.js
+apps/web/.next/
+apps/web/out/
+
+.changeset/pre.json
