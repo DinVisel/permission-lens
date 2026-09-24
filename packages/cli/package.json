@@ -1,7 +1,7 @@
 {
   "name": "@permissionlens/cli",
   "version": "0.0.0",
-  "description": "permissionlens decode|address|census",
+  "description": "permissionlens decode|address",
   "license": "MIT OR Apache-2.0",
   "repository": {
     "type": "git",

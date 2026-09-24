@@ -16,8 +16,9 @@ still an external, real-world action nobody has taken yet).
       "Version Packages" PR. Nothing has been published.
 - [ ] Launch post: problem, demo, census findings, call for registry contributors.
       Drafted at [`docs/launch/launch-post.md`](../launch/launch-post.md) —
-      the census-findings section is a placeholder because
-      `tools/census` (Phase 2) hasn't been built yet.
+      the census-findings section is still a placeholder: `tools/census`
+      (Phase 2) is built and tested now, but nobody has run it against real
+      chain history yet.
 - [ ] Open integration PRs (or issues with a working prototype) for ≥ 2 open-source consumers (Rabby, Frame, Blockscout's 7702 account view).
       Draft issue/PR text for all three at
       [`docs/launch/integration-candidates.md`](../launch/integration-candidates.md).
@@ -42,7 +43,7 @@ Not met.
 
 Needs Phases 0–4 substantially complete — see
 [`docs/progress/README.md`](README.md). As of this writing Phase 0 outreach
-hasn't started and Phase 2's census tool + real dataset are still
-outstanding, so the launch-post and grant-application content can't be
-finished honestly yet even though the publishing/issue-template
+hasn't started, and Phase 2's census tool exists but hasn't been run against
+real chain history, so the launch-post and grant-application content can't
+be finished honestly yet even though the publishing/issue-template
 infrastructure is ready.

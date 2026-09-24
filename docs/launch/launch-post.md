@@ -27,10 +27,13 @@ authorization.]
 
 ## Census findings
 
-[TODO: this section doesn't exist yet. It depends on `tools/census`
-(currently a README stub, Phase 2) actually running against a block range
-and producing real cluster/ranking numbers — normalizedCodehash clusters,
-counts, chains. Do not publish this post with placeholder numbers.]
+[TODO: this section doesn't exist yet. `tools/census` (Phase 2) is built and
+tested (`pnpm --filter @permissionlens/census census -- --rpc <url>
+--from-block <n> --out clusters.csv` — see `tools/census/README.md`), but
+nobody has pointed it at real chain history yet. Run it against a real RPC
+and a meaningful block range, review the output, and only then fill in
+real cluster/ranking numbers here. Do not publish this post with
+placeholder numbers.]
 
 ## What's in v0.1
 
@@ -42,7 +45,10 @@ counts, chains. Do not publish this post with placeholder numbers.]
   in tests — re-run `ls packages/registry/data | wc -l` before publishing
   and drop the examples from the count).
 - `@permissionlens/onchain` — optional enrichment via a viem `PublicClient`.
-- `@permissionlens/cli` — `permissionlens decode|address|census`.
+- `@permissionlens/cli` — `permissionlens decode|address`.
+- `tools/census` — the batch pipeline that produced the numbers above:
+  scans a block range for EIP-7702 authorizations and clusters delegates by
+  `normalizedCodehash`.
 - A MetaMask Snap giving signature insight inside MetaMask's own
   confirmation UI.
 
