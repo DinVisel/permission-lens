@@ -11,7 +11,7 @@ repo — update the checkboxes as work completes, don't let this drift.
 | 2 — Registry v0 and on-chain enrichment | 🟡 in progress (enrichment, new rules, CLI criterion done; census + real registry data outstanding) | [phase-2-registry-onchain.md](phase-2-registry-onchain.md) |
 | 3 — ERC-7710 and ERC-7715 | 🟢 done (except PL-GEN-002, deferred — no verified reference schema found) | [phase-3-7710-7715.md](phase-3-7710-7715.md) |
 | 4 — Surfaces (web app, Snap) | 🟡 in progress (all 4 tasks built; Snap's acceptance criterion needs a manual MetaMask Flask verification) | [phase-4-surfaces.md](phase-4-surfaces.md) |
-| 5 — Launch and first integrations | ⚪ not started | [phase-5-launch.md](phase-5-launch.md) |
+| 5 — Launch and first integrations | 🟡 in progress (publish/issue-template scaffolding landed; outreach, publishing, PRs and grant applications not started) | [phase-5-launch.md](phase-5-launch.md) |
 | 6 — Standards and expansion | ⚪ not started | [phase-6-standards-expansion.md](phase-6-standards-expansion.md) |
 
 Legend: ⚪ not started · 🟡 in progress · 🟢 done · 🔴 blocked
