@@ -9,8 +9,10 @@ explorers and security tools can embed.
 > later. Grants need scope analysis, not transaction simulation.
 
 **Status:** early development (Phase 1 — see
-[`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md)). Background reading on
-7702/7710/7715 and how they get abused is in [`LEARNING.md`](LEARNING.md).
+[`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md) and the
+[phase-by-phase progress tracker](docs/progress/README.md)). Background
+reading on 7702/7710/7715 and how they get abused is in
+[`LEARNING.md`](LEARNING.md).
 
 ## Packages
 
