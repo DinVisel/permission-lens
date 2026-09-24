@@ -1,0 +1,96 @@
+name: Vendor registry submission
+description: Add or update your delegate implementation, caveat enforcer, or delegation manager in the PermissionLens registry.
+title: "registry: add <vendor>/<contract name>"
+labels: ["registry"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for adding your deployment. Read [`GOVERNANCE.md`](../../GOVERNANCE.md)
+        first — it sets the evidence bar per status:
+
+        - **recognized** — vendor-controlled evidence (official repo or docs
+          listing the address) **and** 2 maintainer approvals. Never assigned
+          from a heuristic match alone.
+        - **caution** — legitimate but risky (e.g. upgradeable by a single
+          EOA, unprotected `initialize`).
+        - **malicious** — on-chain evidence (transaction hashes).
+
+        This issue collects the facts; a maintainer or the reporter then
+        opens a PR adding a JSON file under `packages/registry/data/`
+        matching `packages/registry/schema/entry.schema.json`.
+
+  - type: input
+    id: vendor
+    attributes:
+      label: Vendor / project name
+      placeholder: "Acme Wallet"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind
+      options:
+        - delegate-implementation
+        - caveat-enforcer
+        - delegation-manager
+    validations:
+      required: true
+
+  - type: input
+    id: contract-name
+    attributes:
+      label: Contract name and version
+      placeholder: "AcmeDelegate v1.2.0"
+    validations:
+      required: true
+
+  - type: textarea
+    id: deployments
+    attributes:
+      label: Deployments
+      description: One `chainId` + `address` pair per line.
+      placeholder: |
+        1, 0x0000000000000000000000000000000000000000
+        8453, 0x0000000000000000000000000000000000000000
+    validations:
+      required: true
+
+  - type: input
+    id: codehash
+    attributes:
+      label: Runtime codehash (optional)
+      description: keccak256 of the deployed runtime bytecode, if you have it. CI computes and verifies this against the listed chains for `recognized` entries.
+      placeholder: "0x..."
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence links
+      description: >
+        Vendor-controlled source (official repo, docs page listing the
+        address) for `recognized`; transaction hashes/explorer links for
+        `malicious`; audit or source links for `caution`. One URL per line.
+    validations:
+      required: true
+
+  - type: textarea
+    id: properties
+    attributes:
+      label: Properties (optional)
+      description: >
+        Anything relevant to risk rules — upgradeable? initialization
+        (none/signed/unprotected)? storage layout (erc7201/plain/none)?
+        accepts typed-data execution?
+
+  - type: checkboxes
+    id: acknowledgements
+    attributes:
+      label: Acknowledgements
+      options:
+        - label: I am submitting this on behalf of the vendor, or I am the vendor.
+          required: false
+        - label: I understand a maintainer will open or review the PR and that `recognized` status needs 2 maintainer approvals.
+          required: true

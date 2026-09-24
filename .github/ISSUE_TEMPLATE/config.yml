@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Registry dispute
+    url: https://github.com/DinVisel/permission-lens/blob/main/GOVERNANCE.md#disputes
+    about: Disagree with an existing entry's status? Open a normal issue referencing the entry — see the dispute process in GOVERNANCE.md.
+  - name: Security vulnerability
+    url: https://github.com/DinVisel/permission-lens/security/policy
+    about: Do not open a public issue for a vulnerability — see SECURITY.md.
