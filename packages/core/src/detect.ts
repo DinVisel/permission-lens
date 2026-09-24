@@ -6,6 +6,8 @@ export type ResolvedInput =
   | { kind: "7702-transaction"; serialized: `0x${string}` }
   | { kind: "raw-hash"; hash: `0x${string}` }
   | { kind: "7710-delegation"; typedData: unknown }
+  | { kind: "7715-request"; params: unknown }
+  | { kind: "7715-response"; params: unknown }
   | { kind: "unsupported"; reason: string };
 
 /**
@@ -23,10 +25,16 @@ export function detect(input: GrantInput): ResolvedInput[] {
       if (looksLikeDelegationTypedData(input.typedData)) return [{ kind: "7710-delegation", typedData: input.typedData }];
       return [{ kind: "unsupported", reason: "typed-data payload doesn't match a DelegationManager domain — only ERC-7710 delegations are supported so far" }];
     }
+    if (input.kind === "7715-request") return [{ kind: "7715-request", params: input.params }];
+    if (input.kind === "7715-response") return [{ kind: "7715-response", params: input.params }];
     if (input.kind === "onchain-observation") {
       return [{ kind: "unsupported", reason: "onchain-observation requires a live chain read — use @permissionlens/onchain's checkAddressDelegation(), not decode()" }];
     }
-    return [{ kind: "unsupported", reason: `${input.kind} is not yet supported by this build of @permissionlens/core` }];
+    // Every GrantInput variant is handled above — this only matters for a
+    // caller passing something that doesn't actually match the type (plain
+    // JS, no compiler backing it).
+    const unknownKind = (input as { kind: string }).kind;
+    return [{ kind: "unsupported", reason: `${unknownKind} is not yet supported by this build of @permissionlens/core` }];
   }
 
   const { method, params } = input;
@@ -55,6 +63,10 @@ export function detect(input: GrantInput): ResolvedInput[] {
     const typedData = typeof params[1] === "string" ? safeJsonParse(params[1]) : params[1];
     if (looksLikeDelegationTypedData(typedData)) return [{ kind: "7710-delegation", typedData }];
     return [{ kind: "unsupported", reason: "eth_signTypedData_v4 payload doesn't match a DelegationManager domain — only ERC-7710 delegations are supported so far" }];
+  }
+
+  if (method === "wallet_requestExecutionPermissions" || method === "wallet_grantPermissions") {
+    return [{ kind: "7715-request", params }];
   }
 
   return [{ kind: "unsupported", reason: `RPC method "${method}" is not yet supported by this build of @permissionlens/core` }];

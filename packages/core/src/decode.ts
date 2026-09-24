@@ -3,6 +3,7 @@ import { normalizeAuthorization } from "./authorization.js";
 import { grantFrom7702Authorization } from "./grants/from-7702.js";
 import { parse7702Transaction } from "./transaction.js";
 import { parse7710TypedData } from "./delegation/parse-7710.js";
+import { parse7715Requests, parse7715Responses } from "./permissions/parse-7715.js";
 import { allRules } from "./rules/index.js";
 import { runRules } from "./rules/runner.js";
 import type { RuleContext } from "./rules/types.js";
@@ -62,6 +63,29 @@ export async function decode(input: GrantInput, options: DecodeOptions = {}): Pr
       const grant = parse7710TypedData(item.typedData, { registry: options.registry, chainId: options.chainId, input, path });
       applyDelegationManagerFacts(grant, options);
       grants.push(grant);
+      continue;
+    }
+
+    if (item.kind === "7715-request") {
+      const requestGrants = parse7715Requests(item.params, { registry: options.registry, input });
+      grants.push(...requestGrants);
+      continue;
+    }
+
+    if (item.kind === "7715-response") {
+      const responseGrants = parse7715Responses(item.params, { registry: options.registry, input });
+      for (const grant of responseGrants) {
+        applyDelegationManagerFacts(grant, options);
+        grants.push(grant);
+        // The wrapper Grant is what was *requested*; its decoded context
+        // children are what's *actually enforceable* (LEARNING.md §8.4) —
+        // both go into the flat grants list so 7710 rules evaluate the
+        // real delegation chain, not just the 7715 wrapper around it.
+        for (const child of grant.children ?? []) {
+          applyDelegationManagerFacts(child, options);
+          grants.push(child);
+        }
+      }
       continue;
     }
 

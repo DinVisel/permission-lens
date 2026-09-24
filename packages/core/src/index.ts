@@ -15,3 +15,6 @@ export * from "./delegation/enforcers.js";
 export { grantFrom7710Delegation, hashDelegation, linkRedelegationChain } from "./delegation/from-7710.js";
 export type { From7710Options } from "./delegation/from-7710.js";
 export { parse7710TypedData, parse7710DelegationChain, looksLikeDelegationTypedData, InvalidDelegationTypedDataError } from "./delegation/parse-7710.js";
+export * from "./permissions/types.js";
+export { decodeDelegationContext, InvalidPermissionContextError } from "./permissions/context.js";
+export { parse7715Requests, parse7715Responses, InvalidPermissionRequestError } from "./permissions/parse-7715.js";
