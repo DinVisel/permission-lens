@@ -1,0 +1,27 @@
+{
+  "name": "@permissionlens/cli",
+  "version": "0.0.0",
+  "description": "permissionlens decode|address|census",
+  "license": "MIT OR Apache-2.0",
+  "type": "module",
+  "bin": {
+    "permissionlens": "./dist/cli.js"
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@permissionlens/core": "workspace:*",
+    "@permissionlens/registry": "workspace:*",
+    "commander": "^12.1.0",
+    "viem": "^2.21.0"
+  },
+  "devDependencies": {
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}
