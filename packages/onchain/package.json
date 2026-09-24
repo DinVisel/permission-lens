@@ -3,6 +3,13 @@
   "version": "0.0.0",
   "description": "Optional on-chain enrichment for PermissionLens decode results (Phase 2).",
   "license": "MIT OR Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DinVisel/permission-lens.git",
+    "directory": "packages/onchain"
+  },
+  "homepage": "https://github.com/DinVisel/permission-lens/tree/main/packages/onchain#readme",
+  "bugs": "https://github.com/DinVisel/permission-lens/issues",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",

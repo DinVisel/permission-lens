@@ -3,6 +3,13 @@
   "version": "0.0.0",
   "description": "permissionlens decode|address|census",
   "license": "MIT OR Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DinVisel/permission-lens.git",
+    "directory": "packages/cli"
+  },
+  "homepage": "https://github.com/DinVisel/permission-lens/tree/main/packages/cli#readme",
+  "bugs": "https://github.com/DinVisel/permission-lens/issues",
   "type": "module",
   "bin": {
     "permissionlens": "./dist/cli.js"

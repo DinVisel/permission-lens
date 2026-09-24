@@ -3,6 +3,13 @@
   "version": "0.0.0",
   "description": "CC0-licensed data on recognized and malicious EIP-7702/ERC-7710 delegate implementations and enforcers.",
   "license": "MIT OR Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DinVisel/permission-lens.git",
+    "directory": "packages/registry"
+  },
+  "homepage": "https://github.com/DinVisel/permission-lens/tree/main/packages/registry#readme",
+  "bugs": "https://github.com/DinVisel/permission-lens/issues",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",

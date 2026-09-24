@@ -3,6 +3,13 @@
   "version": "0.0.0",
   "description": "Offline decoder + risk rules for EIP-7702, ERC-7710 and ERC-7715 grants.",
   "license": "MIT OR Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DinVisel/permission-lens.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/DinVisel/permission-lens/tree/main/packages/core#readme",
+  "bugs": "https://github.com/DinVisel/permission-lens/issues",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
