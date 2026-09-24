@@ -1,0 +1,31 @@
+{
+  "version": "0.0.0",
+  "description": "Decodes what authority a signature grants (EIP-7702, ERC-7710, ERC-7715) and flags evidence-backed risks — offline, before you sign.",
+  "proposedName": "PermissionLens",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DinVisel/permission-lens.git"
+  },
+  "source": {
+    "shasum": "wyKMdVmiNCgvWijE0IPywtkirIwbUp9gEInBKlQ4C5I=",
+    "location": {
+      "npm": {
+        "filePath": "dist/bundle.js",
+        "iconPath": "images/icon.svg",
+        "packageName": "@permissionlens/snap",
+        "registry": "https://registry.npmjs.org/"
+      }
+    }
+  },
+  "initialPermissions": {
+    "endowment:signature-insight": {
+      "allowSignatureOrigin": true
+    },
+    "endowment:transaction-insight": {
+      "allowTransactionOrigin": true
+    },
+    "endowment:page-home": {}
+  },
+  "platformVersion": "12.0.1",
+  "manifestVersion": "0.1"
+}

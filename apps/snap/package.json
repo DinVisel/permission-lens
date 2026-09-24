@@ -1,0 +1,30 @@
+{
+  "name": "@permissionlens/snap",
+  "private": true,
+  "version": "0.0.0",
+  "description": "PermissionLens as a MetaMask Snap: transaction and signature insights for EIP-7702 / ERC-7710 / ERC-7715.",
+  "license": "MIT OR Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DinVisel/permission-lens.git"
+  },
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "mm-snap build",
+    "dev": "mm-snap watch",
+    "start": "mm-snap serve",
+    "lint": "eslint .",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@metamask/snaps-sdk": "12.0.1",
+    "@permissionlens/core": "workspace:*",
+    "@permissionlens/registry": "workspace:*"
+  },
+  "devDependencies": {
+    "@metamask/snaps-cli": "^8.4.1",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}

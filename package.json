@@ -12,6 +12,7 @@
     "build": "pnpm -r --filter=./packages/* build && pnpm -r --filter=./apps/* build",
     "dev": "pnpm -r --filter=./packages/* --parallel dev",
     "dev:web": "pnpm --filter @permissionlens/web dev",
+    "dev:snap": "pnpm --filter @permissionlens/snap dev",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint .",
