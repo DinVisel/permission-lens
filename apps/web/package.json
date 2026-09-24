@@ -1,0 +1,31 @@
+{
+  "name": "@permissionlens/web",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Paste a request, or check an address — decoded offline in the browser.",
+  "license": "MIT OR Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@permissionlens/core": "workspace:*",
+    "@permissionlens/onchain": "workspace:*",
+    "@permissionlens/registry": "workspace:*",
+    "@scure/bip39": "^1.6.0",
+    "next": "^16.3.6",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "viem": "^2.21.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.1",
+    "@types/react-dom": "^19.0.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}
