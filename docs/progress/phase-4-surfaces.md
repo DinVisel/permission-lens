@@ -2,7 +2,7 @@
 
 Weeks 13–16. Source: [`IMPLEMENTATION_PLAN.md` §9](../../IMPLEMENTATION_PLAN.md#phase-4--surfaces-weeks-1316).
 
-**Status:** 🟡 in progress — web app scaffolded (`apps/web`).
+**Status:** 🟡 in progress — web app and docs site done; Snap and integration guide remain.
 
 ## Tasks
 
@@ -11,12 +11,13 @@ Weeks 13–16. Source: [`IMPLEMENTATION_PLAN.md` §9](../../IMPLEMENTATION_PLAN.
   - [x] Strict CSP; no analytics on pasted content.
 - [ ] MetaMask Snap: signature insights (7710 delegations, delegate execution intents) and transaction insights.
 - [ ] Integration guide: "Add PermissionLens to your wallet's signing screen in 30 lines."
-- [ ] Docs site: one page per rule ID.
+- [x] Docs site: one page per rule ID.
   - Note: `docs/rules/*.md` pages already exist per rule ID from Phase 1 — this task is about publishing them as a site, not writing them from scratch.
+  - Done as `apps/web`'s `/rules` (index) and `/rules/[id]` routes, reading `docs/rules/*.md` directly — no separate docs-site package.
 
 ## Acceptance criteria
 
-- [ ] The web app works offline after first load for paste-decoding.
+- [x] The web app works offline after first load for paste-decoding.
 - [ ] The Snap passes the MetaMask Snaps review checklist locally.
 
 ## Dependencies
