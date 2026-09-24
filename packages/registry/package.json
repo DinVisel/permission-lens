@@ -22,7 +22,8 @@
     "build": "tsup",
     "dev": "tsup --watch",
     "test": "vitest run",
-    "validate": "node scripts/validate.mjs"
+    "validate": "node scripts/validate.mjs",
+    "verify-codehashes": "node scripts/verify-codehashes.mjs"
   },
   "dependencies": {
     "@permissionlens/core": "workspace:*",

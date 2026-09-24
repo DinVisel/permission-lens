@@ -1,0 +1,23 @@
+name: Registry codehash verification (nightly)
+
+on:
+  schedule:
+    - cron: "17 4 * * *"
+  workflow_dispatch: {}
+
+jobs:
+  verify-codehashes:
+    runs-on: ubuntu-latest
+    # Non-blocking by design — see verify-codehashes.mjs's header comment.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @permissionlens/core build
+      - run: pnpm --filter @permissionlens/registry verify-codehashes
