@@ -2,14 +2,16 @@
 
 Weeks 13–16. Source: [`IMPLEMENTATION_PLAN.md` §9](../../IMPLEMENTATION_PLAN.md#phase-4--surfaces-weeks-1316).
 
-**Status:** 🟡 in progress — web app, docs site and integration guide done; Snap remains.
+**Status:** 🟡 in progress — all four tasks landed; one acceptance criterion
+still needs a human with MetaMask Flask (see below).
 
 ## Tasks
 
 - [x] Web app (Next.js): "Paste a request" and "Check an address" tabs; shared renderer; client-side decoding.
   - [x] Refuse pasted private keys and seed phrases (64-hex strings, 12/24-word BIP-39 phrases) with a clear warning.
   - [x] Strict CSP; no analytics on pasted content.
-- [ ] MetaMask Snap: signature insights (7710 delegations, delegate execution intents) and transaction insights.
+- [x] MetaMask Snap: signature insights (7710 delegations, delegate execution intents) and transaction insights.
+  - Done as `apps/snap`. Signature insight covers 7710 delegations (`eth_signTypedData_v3/v4`) via the same `decode()` as everything else. Transaction insight and 7715 ("delegate execution intents") are scoped down and the reasons documented in [`apps/snap/README.md`](../../apps/snap/README.md): `@metamask/snaps-sdk`'s `Transaction` type doesn't expose EIP-7702's `authorizationList` as of 12.0.1, and 7715 requests (`wallet_grantPermissions`) don't reach either Snaps insight handler at all. This is the plan's own instruction ("scope to what Snaps can actually see; document the limits honestly"), not a shortfall being glossed over.
 - [x] Integration guide: "Add PermissionLens to your wallet's signing screen in 30 lines."
   - Done as [`docs/integration-guide.md`](../integration-guide.md): an extension-wallet example (background script, 26 lines) and a React embedded-wallet example (a `useDecodedRequest` hook plus wiring it into a signing modal, 23 lines each). Both snippets are typechecked against the real package API, not illustrative pseudocode.
 - [x] Docs site: one page per rule ID.
@@ -20,6 +22,7 @@ Weeks 13–16. Source: [`IMPLEMENTATION_PLAN.md` §9](../../IMPLEMENTATION_PLAN.
 
 - [x] The web app works offline after first load for paste-decoding.
 - [ ] The Snap passes the MetaMask Snaps review checklist locally.
+  - Everything checkable without a live wallet is done and listed in [`apps/snap/README.md`](../../apps/snap/README.md#review-checklist-status): clean warning-free `mm-snap build`, a schema-valid auto-fixed manifest, an SDK version MetaMask production actually supports, minimal permissions, no "safe" wording, unit tests on all three handlers. What's left needs a human: installing the built Snap in MetaMask Flask and walking through an actual delegation signature to see the insight render in the real UI. Not done here — this session has no Flask instance to install into.
 
 ## Dependencies
 

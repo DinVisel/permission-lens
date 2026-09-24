@@ -23,6 +23,7 @@ reading on 7702/7710/7715 and how they get abused is in
 | [`@permissionlens/onchain`](packages/onchain) | Optional enrichment using a `viem` `PublicClient`. |
 | [`@permissionlens/cli`](packages/cli) | `permissionlens decode\|address\|census` |
 | [`apps/web`](apps/web) | Paste-a-request / check-an-address web app, and the [rules reference site](docs/rules). |
+| [`apps/snap`](apps/snap) | MetaMask Snap: signature insight for ERC-7710 delegations, in MetaMask's own confirmation UI. |
 
 Adding this to your own wallet's signing screen? See the
 [integration guide](docs/integration-guide.md).
