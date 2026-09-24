@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "kind": "caveat-enforcer",
+  "name": "Example Timestamp Enforcer",
+  "vendor": "Example Delegation Framework",
+  "version": "1.0.0",
+  "status": "recognized",
+  "match": {
+    "deployments": [{ "chainId": 1, "address": "0x00000000000000000000000000000000000000e2" }]
+  },
+  "decoder": "example/timestamp@1",
+  "evidence": [{ "type": "vendor-docs", "url": "https://example.invalid/docs/timestamp-enforcer" }],
+  "review": {
+    "submittedBy": "placeholder — Phase 2 seeds this from real vendor sources (IMPLEMENTATION_PLAN.md §7.4)",
+    "reviewers": ["placeholder-1", "placeholder-2"],
+    "date": "2026-09-24"
+  }
+}

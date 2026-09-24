@@ -1,0 +1,37 @@
+{
+  "name": "@permissionlens/registry",
+  "version": "0.0.0",
+  "description": "CC0-licensed data on recognized and malicious EIP-7702/ERC-7710 delegate implementations and enforcers.",
+  "license": "MIT OR Apache-2.0",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./data/*": "./data/*",
+    "./package.json": "./package.json"
+  },
+  "files": ["dist", "data", "schema"],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "validate": "node scripts/validate.mjs"
+  },
+  "dependencies": {
+    "@permissionlens/core": "workspace:*",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
+  },
+  "devDependencies": {
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}

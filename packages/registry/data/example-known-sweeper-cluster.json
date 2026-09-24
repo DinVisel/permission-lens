@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "kind": "delegate-implementation",
+  "name": "Example Sweeper Cluster",
+  "status": "malicious",
+  "match": {
+    "normalizedCodehash": "0x2222222222222222222222222222222222222222222222222222222222222222"
+  },
+  "decoder": null,
+  "evidence": [{ "type": "onchain", "url": "https://example.invalid/tx/placeholder-sweep-evidence" }],
+  "review": {
+    "submittedBy": "placeholder — Phase 2 seeds this from tools/census output (IMPLEMENTATION_PLAN.md §7.4)",
+    "reviewers": ["placeholder-1"],
+    "date": "2026-09-24"
+  }
+}

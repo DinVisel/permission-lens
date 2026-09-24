@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "kind": "delegate-implementation",
+  "name": "Example Stateless Delegator",
+  "vendor": "Example Wallet",
+  "version": "1.0.0",
+  "status": "recognized",
+  "match": {
+    "deployments": [{ "chainId": 1, "address": "0x00000000000000000000000000000000000000e1" }],
+    "codehash": "0x1111111111111111111111111111111111111111111111111111111111111111"
+  },
+  "properties": {
+    "upgradeable": false,
+    "initialization": "none",
+    "storage": "erc7201",
+    "acceptsTypedDataExecution": false
+  },
+  "decoder": null,
+  "evidence": [{ "type": "vendor-docs", "url": "https://example.invalid/docs/stateless-delegator" }],
+  "review": {
+    "submittedBy": "placeholder — Phase 2 seeds this from real vendor sources (IMPLEMENTATION_PLAN.md §7.4)",
+    "reviewers": ["placeholder-1", "placeholder-2"],
+    "date": "2026-09-24"
+  }
+}

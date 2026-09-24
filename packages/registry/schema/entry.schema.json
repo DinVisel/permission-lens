@@ -1,0 +1,97 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://permissionlens.dev/schema/entry.schema.json",
+  "title": "PermissionLens registry entry",
+  "type": "object",
+  "required": ["schemaVersion", "kind", "name", "status", "match", "review"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": { "enum": ["delegate-implementation", "caveat-enforcer", "delegation-manager"] },
+    "name": { "type": "string", "minLength": 1 },
+    "vendor": { "type": "string" },
+    "version": { "type": "string" },
+    "status": { "enum": ["recognized", "caution", "malicious"] },
+    "match": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "deployments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["chainId", "address"],
+            "additionalProperties": false,
+            "properties": {
+              "chainId": { "type": "integer", "minimum": 0 },
+              "address": { "type": "string", "pattern": "^0x[0-9a-fA-F]{40}$" }
+            }
+          }
+        },
+        "codehash": { "type": "string", "pattern": "^0x[0-9a-fA-F]{64}$" },
+        "normalizedCodehash": { "type": "string", "pattern": "^0x[0-9a-fA-F]{64}$" }
+      }
+    },
+    "properties": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "upgradeable": { "type": "boolean" },
+        "initialization": { "enum": ["none", "signed", "unprotected"] },
+        "storage": { "enum": ["erc7201", "plain", "none"] },
+        "acceptsTypedDataExecution": { "type": "boolean" }
+      }
+    },
+    "decoder": { "type": ["string", "null"] },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "url"],
+        "additionalProperties": false,
+        "properties": {
+          "type": { "enum": ["source", "audit", "onchain", "vendor-docs"] },
+          "url": { "type": "string", "format": "uri" }
+        }
+      }
+    },
+    "review": {
+      "type": "object",
+      "required": ["submittedBy", "reviewers", "date"],
+      "additionalProperties": false,
+      "properties": {
+        "submittedBy": { "type": "string", "minLength": 1 },
+        "reviewers": { "type": "array", "items": { "type": "string" } },
+        "date": { "type": "string", "format": "date" }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "recognized" } } },
+      "then": {
+        "type": "object",
+        "properties": {
+          "review": {
+            "type": "object",
+            "properties": { "reviewers": { "type": "array", "minItems": 2 } }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "status": { "const": "malicious" } } },
+      "then": {
+        "type": "object",
+        "properties": {
+          "evidence": {
+            "type": "array",
+            "contains": { "type": "object", "properties": { "type": { "const": "onchain" } } },
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ]
+}
