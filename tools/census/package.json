@@ -1,0 +1,25 @@
+{
+  "name": "@permissionlens/census",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Enumerates EIP-7702 type-0x04 authorizations across a block range, clusters delegates by normalizedCodehash, and ranks clusters against the registry (IMPLEMENTATION_PLAN.md §7.4, §9 Phase 2).",
+  "license": "MIT OR Apache-2.0",
+  "type": "module",
+  "bin": {
+    "permissionlens-census": "./src/cli.mjs"
+  },
+  "scripts": {
+    "census": "node src/cli.mjs",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@permissionlens/core": "workspace:*",
+    "@permissionlens/registry": "workspace:*",
+    "commander": "^12.1.0",
+    "viem": "^2.21.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}
