@@ -8,7 +8,7 @@ explorers and security tools can embed.
 > Signing a grant moves nothing, so simulators show no effect. Damage happens
 > later. Grants need scope analysis, not transaction simulation.
 
-**Status:** early development (Phase 1 — see
+**Status:** early development (Phase 4 — see
 [`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md) and the
 [phase-by-phase progress tracker](docs/progress/README.md)). Background
 reading on 7702/7710/7715 and how they get abused is in
@@ -22,6 +22,10 @@ reading on 7702/7710/7715 and how they get abused is in
 | [`@permissionlens/registry`](packages/registry) | Recognized/malicious delegate & enforcer data, CC0-licensed. |
 | [`@permissionlens/onchain`](packages/onchain) | Optional enrichment using a `viem` `PublicClient`. |
 | [`@permissionlens/cli`](packages/cli) | `permissionlens decode\|address\|census` |
+| [`apps/web`](apps/web) | Paste-a-request / check-an-address web app, and the [rules reference site](docs/rules). |
+
+Adding this to your own wallet's signing screen? See the
+[integration guide](docs/integration-guide.md).
 
 ## Development
 
