@@ -2,13 +2,13 @@
 
 Weeks 13–16. Source: [`IMPLEMENTATION_PLAN.md` §9](../../IMPLEMENTATION_PLAN.md#phase-4--surfaces-weeks-1316).
 
-**Status:** ⚪ not started.
+**Status:** 🟡 in progress — web app scaffolded (`apps/web`).
 
 ## Tasks
 
-- [ ] Web app (Next.js): "Paste a request" and "Check an address" tabs; shared renderer; client-side decoding.
-  - [ ] Refuse pasted private keys and seed phrases (64-hex strings, 12/24-word BIP-39 phrases) with a clear warning.
-  - [ ] Strict CSP; no analytics on pasted content.
+- [x] Web app (Next.js): "Paste a request" and "Check an address" tabs; shared renderer; client-side decoding.
+  - [x] Refuse pasted private keys and seed phrases (64-hex strings, 12/24-word BIP-39 phrases) with a clear warning.
+  - [x] Strict CSP; no analytics on pasted content.
 - [ ] MetaMask Snap: signature insights (7710 delegations, delegate execution intents) and transaction insights.
 - [ ] Integration guide: "Add PermissionLens to your wallet's signing screen in 30 lines."
 - [ ] Docs site: one page per rule ID.
