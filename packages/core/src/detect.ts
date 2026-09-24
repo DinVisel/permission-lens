@@ -17,6 +17,9 @@ export function detect(input: GrantInput): ResolvedInput[] {
     if (input.kind === "7702-authorization") return [{ kind: "7702-authorization", authorization: input.authorization }];
     if (input.kind === "7702-transaction") return [{ kind: "7702-transaction", serialized: input.serialized }];
     if (input.kind === "raw-hash") return [{ kind: "raw-hash", hash: input.hash }];
+    if (input.kind === "onchain-observation") {
+      return [{ kind: "unsupported", reason: "onchain-observation requires a live chain read — use @permissionlens/onchain's checkAddressDelegation(), not decode()" }];
+    }
     return [{ kind: "unsupported", reason: `${input.kind} is not yet supported by this build of @permissionlens/core` }];
   }
 

@@ -12,7 +12,17 @@ export type GrantInput =
   | { kind: "typed-data"; typedData: unknown }
   | { kind: "7715-request"; params: unknown }
   | { kind: "7715-response"; params: unknown }
-  | { kind: "raw-hash"; hash: Hex };
+  | { kind: "raw-hash"; hash: Hex }
+  /**
+   * Not something anyone signed — a live read of what an address is
+   * *currently* delegated to (`permissionlens address <addr>`). `decode()`
+   * can't handle this itself (it's offline); only
+   * `@permissionlens/onchain`'s `checkAddressDelegation()` constructs one,
+   * after already doing the chain read. It exists as a `GrantInput` variant
+   * so the resulting `Grant.source.input` is honest about where the grant
+   * came from, instead of forcing an unrelated kind to stand in for it.
+   */
+  | { kind: "onchain-observation"; address: Address; chainId?: number };
 
 /**
  * Both viem field spellings for the 7702 delegate show up across versions
