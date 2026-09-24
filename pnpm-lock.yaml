@@ -41,6 +41,9 @@ importers:
       '@permissionlens/core':
         specifier: workspace:*
         version: link:../core
+      '@permissionlens/onchain':
+        specifier: workspace:*
+        version: link:../onchain
       '@permissionlens/registry':
         specifier: workspace:*
         version: link:../registry

@@ -40,14 +40,21 @@ export async function checkAddressDelegation(address: Address, options: CheckAdd
     };
   }
 
+  // We're observing state, not decoding a signature — the delegation
+  // indicator doesn't preserve which chain_id the original authorization
+  // was signed for. Defaulting to "valid on every chain" (chain_id = 0)
+  // would claim something we don't actually know, so instead this always
+  // resolves the chain being queried and scopes the grant to that.
+  const chainId = options.chainId ?? (await options.client.getChainId());
+
   const delegate = `0x${code.slice(DELEGATION_INDICATOR_PREFIX.length)}` as Address;
 
   const grant: Grant = {
-    id: `onchain:${options.chainId ?? "unknown"}:${address.toLowerCase()}`,
+    id: `onchain:${chainId}:${address.toLowerCase()}`,
     standard: "7702",
     grantor: address,
     grantee: { type: "code", address: delegate },
-    chains: options.chainId ? { type: "list", chainIds: [options.chainId] } : { type: "all" },
+    chains: { type: "list", chainIds: [chainId] },
     scope: { type: "full-account" },
     validity: {},
     replay: {},
@@ -57,11 +64,11 @@ export async function checkAddressDelegation(address: Address, options: CheckAdd
       notes: "Observed on-chain — the original authorization's chain scope and nonce aren't recoverable from current state alone.",
     },
     facts: {},
-    source: { input: { kind: "onchain-observation", address, chainId: options.chainId }, path: `onchain:${address}` },
+    source: { input: { kind: "onchain-observation", address, chainId }, path: `onchain:${address}` },
   };
 
-  const enriched = await enrichGrant(grant, options);
-  const ctx = { chainId: options.chainId, registry: options.registry };
+  const enriched = await enrichGrant(grant, { ...options, chainId });
+  const ctx = { chainId, registry: options.registry };
   const { findings, notChecked, checkedRuleIds } = runRules([enriched], allRules, ctx);
 
   return {
