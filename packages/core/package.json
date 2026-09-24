@@ -1,0 +1,37 @@
+{
+  "name": "@permissionlens/core",
+  "version": "0.0.0",
+  "description": "Offline decoder + risk rules for EIP-7702, ERC-7710 and ERC-7715 grants.",
+  "license": "MIT OR Apache-2.0",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": ["dist"],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run"
+  },
+  "peerDependencies": {
+    "viem": "^2.21.0"
+  },
+  "dependencies": {
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "fast-check": "^3.23.2",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "viem": "^2.21.0",
+    "vitest": "^2.1.8"
+  }
+}
