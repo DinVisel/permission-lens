@@ -1,4 +1,5 @@
 import type { RegistryEntry, RegistryLookup } from "@permissionlens/core";
+import { defaultEntries } from "./default-entries.js";
 
 export type { RegistryEntry, RegistryLookup } from "@permissionlens/core";
 
@@ -93,3 +94,15 @@ function deploymentKey(chainId: number, address: string): string {
 export function loadBundledRegistry(entries: RawEntry[]): Registry {
   return new Registry(entries);
 }
+
+/**
+ * The `data/` entries bundled at build time via static JSON imports — safe
+ * for a browser, a Snap, or anywhere else without filesystem access. Node
+ * consumers that want the raw files on disk (e.g. to add ones dropped in
+ * after publish) should use the CLI's `loadRegistryFromPackage()` instead.
+ */
+export function loadDefaultRegistry(): Registry {
+  return new Registry(defaultEntries);
+}
+
+export { defaultEntries } from "./default-entries.js";
