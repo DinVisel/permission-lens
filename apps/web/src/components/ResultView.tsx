@@ -1,4 +1,11 @@
+import Link from "next/link";
 import type { DecodeResult, Finding, Severity } from "@permissionlens/core";
+
+/** `finding.docsUrl` is a repo-relative path ("docs/rules/PL-7702-001.md") — meaningful on GitHub, not as a link on this site, which serves the same content at /rules/<id>. */
+function ruleHref(docsUrl: string): string {
+  const id = docsUrl.split("/").pop()?.replace(/\.md$/, "");
+  return `/rules/${id}`;
+}
 
 const SEVERITY_ORDER: Severity[] = ["critical", "high", "medium", "low", "info"];
 
@@ -53,9 +60,9 @@ export function ResultView({ result }: { result: DecodeResult }) {
               </div>
               <div className="finding-title">{finding.title}</div>
               <div className="finding-detail">{finding.detail}</div>
-              <a className="docs-link" href={finding.docsUrl} target="_blank" rel="noreferrer noopener">
+              <Link className="docs-link" href={ruleHref(finding.docsUrl)}>
                 Why this check exists →
-              </a>
+              </Link>
             </li>
           ))}
         </ul>

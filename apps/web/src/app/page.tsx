@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { PasteTab } from "@/components/PasteTab";
 import { CheckAddressTab } from "@/components/CheckAddressTab";
 
@@ -15,6 +16,10 @@ export default function Home() {
         <h1>PermissionLens</h1>
         <p className="tagline">What authority does this signature actually grant?</p>
       </header>
+
+      <nav className="top-nav">
+        <Link href="/rules">Rules reference →</Link>
+      </nav>
 
       <nav className="tabs" role="tablist">
         <button
