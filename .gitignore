@@ -7,10 +7,11 @@ coverage/
 .env
 .env.local
 
-# Foundry
+# Foundry — contracts/lib/ is a git submodule (see .gitmodules), not ignored
 contracts/out/
 contracts/cache/
 contracts/broadcast/
+contracts/generated/
 
 # Next.js
 apps/web/.next/
