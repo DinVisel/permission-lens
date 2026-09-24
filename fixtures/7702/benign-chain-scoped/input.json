@@ -1,0 +1,11 @@
+{
+  "kind": "7702-authorization",
+  "authorization": {
+    "chainId": 1,
+    "address": "0x5aAdFB43eF8dAF45DD80F4676345b7676f1D70e3",
+    "nonce": 0,
+    "r": "0xbcf030bae7571cc6af7ced536a975bb88bf2f16098fcb4027c68ef8daf7094ba",
+    "s": "0x0ced5ddcf74f376d4c45091cff7c227320997962267e2884a738f044f861c56d",
+    "v": 27
+  }
+}

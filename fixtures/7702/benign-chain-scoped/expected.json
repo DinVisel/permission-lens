@@ -1,0 +1,88 @@
+{
+  "specVersion": "1",
+  "grants": [
+    {
+      "id": "0x9d38dda52f6c1badec4228f5c4049396d77599ca64ffca88741944fc14888aaa",
+      "standard": "7702",
+      "grantor": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      "grantee": {
+        "type": "code",
+        "address": "0x5aAdFB43eF8dAF45DD80F4676345b7676f1D70e3"
+      },
+      "chains": {
+        "type": "list",
+        "chainIds": [
+          1
+        ]
+      },
+      "scope": {
+        "type": "full-account"
+      },
+      "validity": {},
+      "replay": {
+        "nonce": "0"
+      },
+      "revocation": {
+        "method": "Sign a new authorization to 0x0000000000000000000000000000000000000000",
+        "onchain": true
+      },
+      "facts": {
+        "tupleNonce": "0",
+        "lowS": true,
+        "yParity": 0,
+        "signatureMalformed": false,
+        "recoveredAuthority": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+      },
+      "source": {
+        "input": {
+          "kind": "7702-authorization",
+          "authorization": {
+            "chainId": 1,
+            "address": "0x5aAdFB43eF8dAF45DD80F4676345b7676f1D70e3",
+            "nonce": 0,
+            "r": "0xbcf030bae7571cc6af7ced536a975bb88bf2f16098fcb4027c68ef8daf7094ba",
+            "s": "0x0ced5ddcf74f376d4c45091cff7c227320997962267e2884a738f044f861c56d",
+            "v": 27
+          }
+        },
+        "path": "[0]"
+      }
+    }
+  ],
+  "findings": [
+    {
+      "ruleId": "PL-7702-003",
+      "severity": "high",
+      "confidence": "certain",
+      "title": "Unrecognized code",
+      "detail": "The code at 0x5aAdFB43eF8dAF45DD80F4676345b7676f1D70e3 is not in the registry. Nothing is known about what it does with your account.",
+      "evidence": {
+        "delegate": "0x5aAdFB43eF8dAF45DD80F4676345b7676f1D70e3"
+      },
+      "grantId": "0x9d38dda52f6c1badec4228f5c4049396d77599ca64ffca88741944fc14888aaa",
+      "docsUrl": "docs/rules/PL-7702-003.md"
+    }
+  ],
+  "notChecked": [
+    {
+      "ruleId": "PL-7702-004",
+      "missingFacts": [
+        "registryStatus"
+      ]
+    },
+    {
+      "ruleId": "PL-7702-013",
+      "missingFacts": [
+        "relayed"
+      ]
+    }
+  ],
+  "checkedRuleIds": [
+    "PL-7702-001",
+    "PL-7702-003",
+    "PL-7702-005",
+    "PL-7702-014",
+    "PL-GEN-001"
+  ],
+  "registryVersion": "0.0.0-dev"
+}

@@ -15,6 +15,7 @@
     "test:watch": "vitest",
     "lint": "eslint .",
     "check:rule-docs": "node scripts/check-rule-docs.mjs",
+    "build:fixtures": "node scripts/build-fixtures.mjs",
     "typecheck": "pnpm -r --filter=./packages/* exec tsc --noEmit",
     "changeset": "changeset",
     "release": "pnpm build && changeset publish"
@@ -22,6 +23,7 @@
   "devDependencies": {
     "@changesets/cli": "^2.27.11",
     "@permissionlens/core": "workspace:*",
+    "@permissionlens/registry": "workspace:*",
     "@types/node": "^22.10.2",
     "@typescript-eslint/eslint-plugin": "^8.19.0",
     "@typescript-eslint/parser": "^8.19.0",

@@ -1,0 +1,97 @@
+{
+  "specVersion": "1",
+  "grants": [
+    {
+      "id": "0x5d50cdff8d1c91c8874657af5f7d14486f73dfecd0c2c91caf76eb1f507c52c2",
+      "standard": "7702",
+      "grantor": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      "grantee": {
+        "type": "code",
+        "address": "0xf13D09eD3cbdD1C930d4de74808de1f33B6b3D4f"
+      },
+      "chains": {
+        "type": "all"
+      },
+      "scope": {
+        "type": "full-account"
+      },
+      "validity": {},
+      "replay": {
+        "nonce": "0"
+      },
+      "revocation": {
+        "method": "Sign a new authorization to 0x0000000000000000000000000000000000000000",
+        "onchain": true
+      },
+      "facts": {
+        "tupleNonce": "0",
+        "lowS": true,
+        "yParity": 0,
+        "signatureMalformed": false,
+        "recoveredAuthority": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+      },
+      "source": {
+        "input": {
+          "kind": "7702-authorization",
+          "authorization": {
+            "chainId": 0,
+            "address": "0xf13D09eD3cbdD1C930d4de74808de1f33B6b3D4f",
+            "nonce": 0,
+            "r": "0xc3e2ef2ee7eed7b25b87befa136ee6ae9f9007a7e214117aa74e4c1915b41fc2",
+            "s": "0x5493daeb73f2f1354739cd0b9663aca111dbf77a939642b1169e94a4dd8c00a9",
+            "v": 27
+          }
+        },
+        "path": "[0]"
+      }
+    }
+  ],
+  "findings": [
+    {
+      "ruleId": "PL-7702-001",
+      "severity": "critical",
+      "confidence": "certain",
+      "title": "Valid on every chain",
+      "detail": "This authorization has no chain restriction: it hands control to the code at 0xf13D09eD3cbdD1C930d4de74808de1f33B6b3D4f on every chain where your account exists, not just this one.",
+      "evidence": {
+        "chainId": 0
+      },
+      "grantId": "0x5d50cdff8d1c91c8874657af5f7d14486f73dfecd0c2c91caf76eb1f507c52c2",
+      "docsUrl": "docs/rules/PL-7702-001.md"
+    },
+    {
+      "ruleId": "PL-7702-003",
+      "severity": "high",
+      "confidence": "certain",
+      "title": "Unrecognized code",
+      "detail": "The code at 0xf13D09eD3cbdD1C930d4de74808de1f33B6b3D4f is not in the registry. Nothing is known about what it does with your account.",
+      "evidence": {
+        "delegate": "0xf13D09eD3cbdD1C930d4de74808de1f33B6b3D4f"
+      },
+      "grantId": "0x5d50cdff8d1c91c8874657af5f7d14486f73dfecd0c2c91caf76eb1f507c52c2",
+      "docsUrl": "docs/rules/PL-7702-003.md"
+    }
+  ],
+  "notChecked": [
+    {
+      "ruleId": "PL-7702-004",
+      "missingFacts": [
+        "registryStatus"
+      ]
+    },
+    {
+      "ruleId": "PL-7702-013",
+      "missingFacts": [
+        "relayed"
+      ]
+    }
+  ],
+  "checkedRuleIds": [
+    "PL-7702-001",
+    "PL-7702-003",
+    "PL-7702-005",
+    "PL-7702-014",
+    "PL-GEN-001"
+  ],
+  "registryVersion": "0.0.0-dev"
+}
